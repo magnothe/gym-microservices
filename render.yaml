@@ -1,0 +1,66 @@
+# Blueprint do Render: Dashboard → New → Blueprint → selecionar este repositório.
+# O banco MySQL fica no TiDB Cloud (compatível com MySQL); informe host, usuário e senha
+# quando o Render pedir (campos com sync: false). Cada serviço usa seu próprio banco.
+services:
+  - type: web
+    name: gym-enrollment-service
+    runtime: docker
+    plan: free
+    branch: magno
+    rootDir: python-services/enrollment-service
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: DB_HOST
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_PORT
+        value: "4000"
+      - key: DB_NAME
+        value: enrollment_db
+      - key: DB_SSL
+        value: "true"
+
+  - type: web
+    name: gym-attendance-service
+    runtime: docker
+    plan: free
+    branch: magno
+    rootDir: python-services/attendance-service
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: DB_HOST
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_PORT
+        value: "4000"
+      - key: DB_NAME
+        value: attendance_db
+      - key: DB_SSL
+        value: "true"
+      # Ajuste se o Render atribuir outra URL ao Enrollment Service
+      - key: ENROLLMENT_SERVICE_URL
+        value: https://gym-enrollment-service.onrender.com
+      # O Enrollment pode estar "dormindo" (plano free) e levar até ~1 min para responder
+      - key: ENROLLMENT_SERVICE_TIMEOUT
+        value: "75"
+
+  - type: web
+    name: gym-frontend
+    runtime: docker
+    plan: free
+    branch: magno
+    rootDir: frontend
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: ENROLLMENT_URL
+        value: https://gym-enrollment-service.onrender.com
+      - key: ATTENDANCE_URL
+        value: https://gym-attendance-service.onrender.com

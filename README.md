@@ -31,7 +31,8 @@ React + Vite (JavaScript), em [`frontend/`](frontend/). O frontend acessa os ser
 API Gateway, pelo prefixo `/api/<servico>/`:
 
 - **Desenvolvimento:** o proxy do Vite faz o papel do gateway (`frontend/vite.config.js`).
-- **Docker:** o Nginx serve o build e faz o papel do gateway (`frontend/nginx.conf`).
+- **Docker/Render:** o Nginx serve o build e faz o papel do gateway (`frontend/nginx/default.conf.template`).
+  As URLs dos serviços vêm das variáveis `ENROLLMENT_URL` e `ATTENDANCE_URL`.
 
 Uma barra lateral mostra o log de comunicação: cada requisição do frontend e, quando houver, as chamadas
 que um serviço fez a outro (lidas do header `X-Upstream-Calls`). A aba *Visão geral* tem um diagrama
@@ -40,7 +41,7 @@ que acende o caminho percorrido pela última requisição.
 Para incluir um novo serviço no frontend:
 
 1. Adicione-o em `SERVICES` (`frontend/src/api.js`).
-2. Crie a rota correspondente em `vite.config.js` e em `nginx.conf`.
+2. Crie a rota correspondente em `vite.config.js` e em `nginx/default.conf.template`.
 
 ## Como executar
 
@@ -49,6 +50,21 @@ Tudo com Docker (frontend em http://localhost:8080):
 ```bash
 docker compose up --build
 ```
+
+## Deploy na nuvem (gratuito)
+
+| Parte | Onde |
+|---|---|
+| MySQL | [TiDB Cloud Starter](https://tidbcloud.com), compatível com MySQL (`enrollment_db` e `attendance_db`) |
+| Enrollment, Attendance e Frontend/Gateway | [Render](https://render.com), plano free, via [`render.yaml`](render.yaml) |
+
+1. **TiDB Cloud:** crie um cluster *Starter* e, em *Connect*, gere a senha. Anote host, porta (4000) e usuário.
+2. **Render:** *New → Blueprint*, selecione este repositório e preencha `DB_HOST`, `DB_USER` e `DB_PASSWORD`
+   nos dois serviços Python.
+3. Os bancos `enrollment_db` e `attendance_db` e as tabelas são criados automaticamente na primeira inicialização.
+
+No plano free do Render, os serviços dormem após 15 minutos sem acesso. A primeira requisição depois
+disso pode levar cerca de 1 minuto.
 
 Em desenvolvimento, com os serviços já rodando nas portas 8001 e 8002:
 
