@@ -43,6 +43,18 @@ uvicorn app.main:app --port 8001 --reload
 
 Para o Attendance, use `DATABASE_URL=...attendance_db`, `ENROLLMENT_SERVICE_URL=http://localhost:8001` e `--port 8002`.
 
+### Variáveis de ambiente
+
+| Variável | Descrição |
+|---|---|
+| `DATABASE_URL` | URL SQLAlchemy completa. Se definida, as variáveis `DB_*` são ignoradas |
+| `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` | Conexão em partes (usada no Render) |
+| `DB_SSL` | `true` para conexão TLS (obrigatória no TiDB Cloud) |
+| `ENROLLMENT_SERVICE_URL`, `ENROLLMENT_SERVICE_TIMEOUT` | Só no Attendance: URL e timeout (s) do Enrollment |
+| `PORT` | Porta HTTP (padrão 8000) |
+
+Se o banco do serviço não existir, ele é criado na inicialização (`CREATE DATABASE IF NOT EXISTS`). Depois são criadas as tabelas.
+
 ## Enrollment Service (provedor)
 
 Gestão de alunos, matrículas e avaliação física.

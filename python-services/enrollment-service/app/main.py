@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import OperationalError
 
-from .database import Base, engine
+from .database import Base, engine, ensure_database
 from .routers import assessments, enrollments, students
 
 logger = logging.getLogger("enrollment-service")
@@ -15,6 +15,7 @@ logger = logging.getLogger("enrollment-service")
 def init_db(retries: int = 15, delay: float = 2.0) -> None:
     for attempt in range(1, retries + 1):
         try:
+            ensure_database()
             Base.metadata.create_all(bind=engine)
             return
         except OperationalError:
