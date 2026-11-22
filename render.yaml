@@ -1,6 +1,6 @@
-# Blueprint do Render: Dashboard → New → Blueprint → selecionar este repositório.
-# O banco MySQL fica no TiDB Cloud (compatível com MySQL); informe host, usuário e senha
-# quando o Render pedir (campos com sync: false). Cada serviço usa seu próprio banco.
+﻿# Blueprint do Render: Dashboard → New → Blueprint → selecionar este repositório.
+# O MySQL fica no Railway (proxy TCP público). Só a senha é secreta: informe DB_PASSWORD
+# quando o Render pedir (sync: false). Cada serviço usa seu próprio banco no mesmo servidor.
 services:
   - type: web
     name: gym-enrollment-service
@@ -12,17 +12,17 @@ services:
     healthCheckPath: /health
     envVars:
       - key: DB_HOST
-        sync: false
+        value: acela.proxy.rlwy.net
+      - key: DB_PORT
+        value: "10321"
       - key: DB_USER
-        sync: false
+        value: root
       - key: DB_PASSWORD
         sync: false
-      - key: DB_PORT
-        value: "4000"
       - key: DB_NAME
         value: enrollment_db
       - key: DB_SSL
-        value: "true"
+        value: "false"
 
   - type: web
     name: gym-attendance-service
@@ -34,17 +34,17 @@ services:
     healthCheckPath: /health
     envVars:
       - key: DB_HOST
-        sync: false
+        value: acela.proxy.rlwy.net
+      - key: DB_PORT
+        value: "10321"
       - key: DB_USER
-        sync: false
+        value: root
       - key: DB_PASSWORD
         sync: false
-      - key: DB_PORT
-        value: "4000"
       - key: DB_NAME
         value: attendance_db
       - key: DB_SSL
-        value: "true"
+        value: "false"
       # Ajuste se o Render atribuir outra URL ao Enrollment Service
       - key: ENROLLMENT_SERVICE_URL
         value: https://gym-enrollment-service.onrender.com

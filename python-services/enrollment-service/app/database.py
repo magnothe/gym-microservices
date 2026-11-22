@@ -42,7 +42,8 @@ def ensure_database() -> None:
     """Cria o banco do serviço caso ainda não exista (necessário no MySQL da nuvem)."""
     if DATABASE_URL.get_backend_name() != "mysql" or not DATABASE_URL.database:
         return
-    server = create_engine(DATABASE_URL.set(database=None), connect_args=connect_args)
+    # _replace (e não .set) porque .set(database=None) mantém o valor atual
+    server = create_engine(DATABASE_URL._replace(database=None), connect_args=connect_args)
     try:
         with server.connect() as conn:
             conn.execute(text(f"CREATE DATABASE IF NOT EXISTS `{DATABASE_URL.database}`"))

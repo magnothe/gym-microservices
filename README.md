@@ -55,13 +55,14 @@ docker compose up --build
 
 | Parte | Onde |
 |---|---|
-| MySQL | [TiDB Cloud Starter](https://tidbcloud.com), compatível com MySQL (`enrollment_db` e `attendance_db`) |
+| MySQL 8.4 | [Railway](https://railway.com) (trial), proxy público `acela.proxy.rlwy.net:10321`, bancos `enrollment_db` e `attendance_db` |
 | Enrollment, Attendance e Frontend/Gateway | [Render](https://render.com), plano free, via [`render.yaml`](render.yaml) |
 
-1. **TiDB Cloud:** crie um cluster *Starter* e, em *Connect*, gere a senha. Anote host, porta (4000) e usuário.
-2. **Render:** *New → Blueprint*, selecione este repositório e preencha `DB_HOST`, `DB_USER` e `DB_PASSWORD`
-   nos dois serviços Python.
-3. Os bancos `enrollment_db` e `attendance_db` e as tabelas são criados automaticamente na primeira inicialização.
+1. **Render:** *New → Blueprint*, selecione este repositório e preencha `DB_PASSWORD` nos dois serviços Python.
+   A senha está no Railway: serviço *MySQL → Variables → `MYSQL_ROOT_PASSWORD`*.
+2. Os bancos e as tabelas são criados automaticamente na primeira inicialização, se ainda não existirem.
+
+Para usar outro MySQL (TiDB Cloud, Aiven etc.), troque `DB_HOST`, `DB_PORT`, `DB_USER` e `DB_SSL` no `render.yaml`.
 
 No plano free do Render, os serviços dormem após 15 minutos sem acesso. A primeira requisição depois
 disso pode levar cerca de 1 minuto.
