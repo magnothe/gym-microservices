@@ -1,0 +1,12 @@
+# Sobe a aplicação inteira. Cada equipe mantém o próprio compose e o inclui aqui.
+include:
+  - python-services/docker-compose.yml
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - enrollment-service
+      - attendance-service
