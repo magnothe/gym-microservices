@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react'
 
 // Registro dos microsserviços acessados via API Gateway.
 // Para integrar os serviços das outras equipes, basta adicionar aqui
-// e criar a rota correspondente no gateway (vite.config.js / nginx.conf).
+// e criar a rota correspondente no gateway (vite.config.js / vercel.json / nginx).
 export const SERVICES = {
   enrollment: { name: 'Enrollment Service', base: '/api/enrollment', lang: 'Python · FastAPI' },
   attendance: { name: 'Attendance Service', base: '/api/attendance', lang: 'Python · FastAPI' },

@@ -3,7 +3,7 @@ import { useCommunicationLog } from '../api.js'
 
 const NODES = {
   frontend: { x: 220, y: 12, w: 200, title: 'Frontend', sub: 'React' },
-  gateway: { x: 220, y: 100, w: 200, title: 'API Gateway', sub: 'Vite proxy / Nginx' },
+  gateway: { x: 220, y: 100, w: 200, title: 'API Gateway', sub: 'Vercel rewrites / Nginx' },
   enrollment: { x: 30, y: 196, w: 230, title: 'Enrollment Service', sub: 'Python · FastAPI · provedor' },
   attendance: { x: 380, y: 196, w: 230, title: 'Attendance Service', sub: 'Python · FastAPI · consumidor' },
   enrollment_db: { x: 55, y: 330, w: 180, title: 'enrollment_db', sub: 'MySQL', db: true },
