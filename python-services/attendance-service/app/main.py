@@ -1,13 +1,14 @@
+import json
 import logging
 import time
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import OperationalError
 
 from .database import Base, engine
-from .enrollment_client import ENROLLMENT_SERVICE_URL
+from .enrollment_client import ENROLLMENT_SERVICE_URL, upstream_calls
 from .routers import appointments, checkins, history
 
 logger = logging.getLogger("attendance-service")
@@ -40,7 +41,24 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["X-Upstream-Calls"],
+)
+
+
+@app.middleware("http")
+async def expose_upstream_calls(request: Request, call_next):
+    """Informa ao cliente quais serviços foram chamados para atender a requisição."""
+    calls: list = []
+    upstream_calls.set(calls)
+    response = await call_next(request)
+    if calls:
+        response.headers["X-Upstream-Calls"] = json.dumps(calls)
+    return response
 
 app.include_router(checkins.router)
 app.include_router(appointments.router)

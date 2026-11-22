@@ -72,6 +72,9 @@ Frequência, agenda de atendimento do personal e histórico de atividades.
 Antes de registrar check-in ou agendar atendimento, consulta o Enrollment Service:
 aluno inexistente → `404`; sem matrícula ativa → `403`; Enrollment fora do ar → `503`.
 
+Toda resposta que dependeu do Enrollment traz o header `X-Upstream-Calls`, com as chamadas feitas
+(serviço, método, rota, status e tempo). O frontend usa esse header para mostrar a comunicação entre os serviços.
+
 | Método | Rota | Descrição |
 |---|---|---|
 | POST | `/checkins` | Check-in do aluno (valida matrícula ativa) |
