@@ -22,11 +22,11 @@
     },
     {
       "source": "/api/exercise/:path*",
-      "destination": "/api/java-gateway?service=exercise&route=:path*"
+      "destination": "https://exercise-service-production-83b2cddb.up.railway.app/:path*"
     },
     {
       "source": "/api/workout/:path*",
-      "destination": "/api/java-gateway?service=workout&route=:path*"
+      "destination": "https://workout-service-production-5c17b4bd.up.railway.app/:path*"
     },
     {
       "source": "/(.*)",
