@@ -41,9 +41,9 @@ Rotas do gateway por ambiente:
 
 - **Desenvolvimento:** proxy do Vite (`frontend/vite.config.js`).
 - **Docker:** Nginx (`frontend/nginx/default.conf.template`), com as URLs em variáveis de ambiente.
-- **Vercel:** `frontend/vercel.json`. Os serviços Node e Java passam pelas funções
-  `frontend/api/node-gateway.js` e `frontend/api/java-gateway.js`, que leem `USER_URL`,
-  `PAYMENT_URL`, `EXERCISE_URL` e `WORKOUT_URL` das variáveis de ambiente do projeto.
+- **Vercel:** `frontend/vercel.json`. Python e Java são encaminhados direto para o Railway; o Node
+  passa pela função `frontend/api/node-gateway.js`, que lê `USER_URL` e `PAYMENT_URL` das
+  variáveis de ambiente do projeto.
 
 ## Como executar (serviços Python)
 
@@ -77,7 +77,8 @@ Navegador ──► Vercel (React + API Gateway via rewrites)
 | Attendance Service | Railway | https://attendance-service-production-b2ad6971.up.railway.app/docs |
 | MySQL 8.4 | Railway | interno: `mysql.railway.internal:3306` · público: `acela.proxy.rlwy.net:10321` |
 | User e Payment Service | — | configurar `USER_URL` e `PAYMENT_URL` na Vercel |
-| Workout e Exercise Service | — | configurar `EXERCISE_URL` e `WORKOUT_URL` na Vercel |
+| Exercise Service (Java) | Railway | https://exercise-service-production-83b2cddb.up.railway.app/exercises |
+| Workout Service (Java) | Railway | https://workout-service-production-5c17b4bd.up.railway.app/workouts |
 
 Enquanto uma URL não estiver configurada, o serviço aparece como offline na Visão geral.
 
