@@ -8,6 +8,8 @@ const routes = {
   '/api/payment': process.env.PAYMENT_URL || 'http://localhost:8004',
   '/api/enrollment': process.env.ENROLLMENT_URL || 'http://localhost:8001',
   '/api/attendance': process.env.ATTENDANCE_URL || 'http://localhost:8002',
+  '/api/exercise': process.env.EXERCISE_URL || 'http://localhost:8081',
+  '/api/workout': process.env.WORKOUT_URL || 'http://localhost:8082',
 }
 
 const proxy = Object.fromEntries(

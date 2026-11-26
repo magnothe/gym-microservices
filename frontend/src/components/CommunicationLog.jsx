@@ -7,7 +7,14 @@ function statusTone(status) {
   return 'ok'
 }
 
-const SHORT = { user: 'User', payment: 'Payment', enrollment: 'Enrollment', attendance: 'Attendance' }
+const SHORT = {
+  user: 'User',
+  payment: 'Payment',
+  enrollment: 'Enrollment',
+  attendance: 'Attendance',
+  workout: 'Workout',
+  exercise: 'Exercise',
+}
 
 export default function CommunicationLog() {
   const log = useCommunicationLog()

@@ -1,6 +1,6 @@
 # Nginx serve o build do React e atua como API Gateway:
 # /api/<servico>/... é encaminhado para o microsserviço correspondente.
-# ${PORT}, ${ENROLLMENT_URL} e ${ATTENDANCE_URL} são preenchidos na inicialização
+# ${PORT} e as URLs dos serviços (${ENROLLMENT_URL}, ${WORKOUT_URL} etc.) são preenchidos na inicialização
 # do container (envsubst da imagem oficial do Nginx).
 server {
     listen ${PORT};
@@ -30,6 +30,18 @@ server {
 
     location /api/payment/ {
         proxy_pass ${PAYMENT_URL}/;
+        proxy_set_header Host $proxy_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /api/exercise/ {
+        proxy_pass ${EXERCISE_URL}/;
+        proxy_set_header Host $proxy_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /api/workout/ {
+        proxy_pass ${WORKOUT_URL}/;
         proxy_set_header Host $proxy_host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }

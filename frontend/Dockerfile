@@ -11,7 +11,9 @@ ENV USER_URL=http://127.0.0.1:8003 \
     PAYMENT_URL=http://127.0.0.1:8004 \
     PORT=80 \
     ENROLLMENT_URL=http://enrollment-service:8000 \
-    ATTENDANCE_URL=http://attendance-service:8000
+    ATTENDANCE_URL=http://attendance-service:8000 \
+    EXERCISE_URL=http://exercise-service:8081 \
+    WORKOUT_URL=http://workout-service:8082
 COPY nginx/default.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80

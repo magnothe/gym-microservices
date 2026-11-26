@@ -20,6 +20,17 @@
       "source": "/api/attendance/:path*",
       "destination": "https://attendance-service-production-b2ad6971.up.railway.app/:path*"
     },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/api/exercise/:path*",
+      "destination": "/api/java-gateway?service=exercise&route=:path*"
+    },
+    {
+      "source": "/api/workout/:path*",
+      "destination": "/api/java-gateway?service=workout&route=:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
