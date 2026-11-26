@@ -6,12 +6,14 @@ import Overview from './pages/Overview.jsx'
 import SchedulePage from './pages/SchedulePage.jsx'
 import PaymentsPage from './pages/PaymentsPage.jsx'
 import StudentsPage from './pages/StudentsPage.jsx'
+import WorkoutsPage from './pages/WorkoutsPage.jsx'
 
 const TABS = [
   { id: 'overview', label: 'Visão geral', component: Overview },
   { id: 'students', label: 'Alunos', component: StudentsPage },
   { id: 'attendance', label: 'Frequência', component: AttendancePage },
   { id: 'schedule', label: 'Agenda', component: SchedulePage },
+  { id: 'workouts', label: 'Treinos', component: WorkoutsPage },
   { id: 'payments', label: 'Pagamentos', component: PaymentsPage },
   { id: 'history', label: 'Histórico', component: HistoryPage },
 ]

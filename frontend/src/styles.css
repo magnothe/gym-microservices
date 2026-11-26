@@ -16,6 +16,10 @@
   --neutral-soft: #eceff0;
   --enrollment: #7c3aed;
   --attendance: #0e7490;
+  --user: #1d4ed8;
+  --payment: #be185d;
+  --workout: #b45309;
+  --exercise: #4d7c0f;
   --radius: 12px;
   --shadow: 0 1px 2px rgba(16, 24, 20, 0.06), 0 2px 8px rgba(16, 24, 20, 0.04);
   color-scheme: light;
@@ -40,6 +44,10 @@
     --neutral-soft: #242d29;
     --enrollment: #a78bfa;
     --attendance: #22b8cf;
+    --user: #6b9bff;
+    --payment: #f472b6;
+    --workout: #f0a94b;
+    --exercise: #a3e635;
     --shadow: none;
     color-scheme: dark;
   }
@@ -274,6 +282,11 @@ td select { min-width: 120px; }
 .svc { font-size: 0.72rem; font-weight: 700; padding: 1px 6px; border-radius: 4px; color: #fff; }
 .svc-enrollment { background: var(--enrollment); }
 .svc-attendance { background: var(--attendance); }
+.svc-user { background: var(--user); }
+.svc-payment { background: var(--payment); }
+.svc-workout { background: var(--workout); }
+.svc-exercise { background: var(--exercise); color: #1a2e05; }
+.check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px 12px; }
 .status { font-size: 0.75rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 .status-ok { color: var(--primary); }
 .status-warn { color: var(--warn); }

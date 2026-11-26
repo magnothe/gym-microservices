@@ -32,8 +32,8 @@ export default function Overview() {
         <div>
           <h1>Visão geral</h1>
           <p className="muted">
-            Cada ação nas outras abas acende aqui o caminho que a requisição percorreu. Um check-in ou
-            agendamento faz o Attendance Service consultar o Enrollment Service antes de gravar.
+            Cada ação nas outras abas acende aqui o caminho que a requisição percorreu. Três serviços
+            consultam outro antes de gravar: Attendance → Enrollment, Payment → User e Workout → Exercise.
           </p>
         </div>
         <button type="button" className="btn-ghost" onClick={check}>
@@ -79,6 +79,14 @@ export default function Overview() {
           </li>
           <li>
             <b>Histórico:</b> a tela junta dados dos dois serviços (matrícula + frequência).
+          </li>
+          <li>
+            <b>Treinos:</b> cadastre exercícios e crie uma ficha para o aluno. O Workout valida cada exercício no
+            Exercise Service; ao abrir a ficha, ele busca os detalhes lá de novo.
+          </li>
+          <li>
+            <b>Pagamentos:</b> cadastre um usuário e registre um pagamento. O Payment confirma o usuário no User
+            Service; com um ID inexistente, o pagamento é recusado.
           </li>
         </ol>
       </div>

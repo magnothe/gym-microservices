@@ -8,7 +8,12 @@ export const SERVICES = {
   payment: { name: 'Payment Service', base: '/api/payment', lang: 'JavaScript · Node.js' },
   enrollment: { name: 'Enrollment Service', base: '/api/enrollment', lang: 'Python · FastAPI' },
   attendance: { name: 'Attendance Service', base: '/api/attendance', lang: 'Python · FastAPI' },
+  workout: { name: 'Workout Service', base: '/api/workout', lang: 'Java · Spring Boot' },
+  exercise: { name: 'Exercise Service', base: '/api/exercise', lang: 'Java · Spring Boot' },
 }
+
+// Os serviços Java não têm /health: a verificação usa a listagem.
+const HEALTH_PATHS = { workout: '/workouts', exercise: '/exercises' }
 
 export class ApiError extends Error {
   constructor(message, status) {
@@ -44,6 +49,7 @@ export function useCommunicationLog() {
 
 function errorMessage(data, status) {
   const detail = data?.detail
+  if (typeof data === 'string' && data) return data
   if (typeof detail === 'string') return detail
   if (Array.isArray(detail)) {
     return detail.map((d) => `${d.loc?.slice(1).join('.') || 'campo'}: ${d.msg}`).join('; ')
@@ -80,7 +86,8 @@ export async function request(service, method, path, body, { silent = false, ide
     try {
       data = text ? JSON.parse(text) : null
     } catch {
-      data = null
+      // Os serviços Java devolvem erros em texto puro
+      data = response.ok ? null : text.slice(0, 300) || null
     }
   } catch (err) {
     if (!silent) {
@@ -149,6 +156,19 @@ export const paymentApi = {
   find: (id) => request('payment', 'GET', '/payments/' + id),
 }
 
+export const exerciseApi = {
+  list: () => request('exercise', 'GET', '/exercises'),
+  create: (body) => request('exercise', 'POST', '/exercises', body),
+  remove: (id) => request('exercise', 'DELETE', `/exercises/${id}`),
+}
+
+export const workoutApi = {
+  list: (userId) => request('workout', 'GET', userId ? `/workouts?userId=${userId}` : '/workouts'),
+  detail: (id) => request('workout', 'GET', `/workouts/${id}`),
+  create: (body) => request('workout', 'POST', '/workouts', body),
+  remove: (id) => request('workout', 'DELETE', `/workouts/${id}`),
+}
+
 export function health(service) {
-  return request(service, 'GET', '/health', null, { silent: true })
+  return request(service, 'GET', HEALTH_PATHS[service] || '/health', null, { silent: true })
 }
