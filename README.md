@@ -41,9 +41,7 @@ Rotas do gateway por ambiente:
 
 - **Desenvolvimento:** proxy do Vite (`frontend/vite.config.js`).
 - **Docker:** Nginx (`frontend/nginx/default.conf.template`), com as URLs em variáveis de ambiente.
-- **Vercel:** `frontend/vercel.json`. Python e Java são encaminhados direto para o Railway; o Node
-  passa pela função `frontend/api/node-gateway.js`, que lê `USER_URL` e `PAYMENT_URL` das
-  variáveis de ambiente do projeto.
+- **Vercel:** `frontend/vercel.json`. os seis serviços são encaminhados direto para o Railway.
 
 ## Como executar (serviços Python)
 
@@ -76,11 +74,11 @@ Navegador ──► Vercel (React + API Gateway via rewrites)
 | Enrollment Service | Railway | https://enrollment-service-production-60640b11.up.railway.app/docs |
 | Attendance Service | Railway | https://attendance-service-production-b2ad6971.up.railway.app/docs |
 | MySQL 8.4 | Railway | interno: `mysql.railway.internal:3306` · público: `acela.proxy.rlwy.net:10321` |
-| User e Payment Service | — | configurar `USER_URL` e `PAYMENT_URL` na Vercel |
+| User Service (Node.js) | Railway | https://gym-microservices-production.up.railway.app/health |
+| Payment Service (Node.js) | Railway | https://payment-service-production-b780c96b.up.railway.app/health |
 | Exercise Service (Java) | Railway | https://exercise-service-production-83b2cddb.up.railway.app/exercises |
 | Workout Service (Java) | Railway | https://workout-service-production-5c17b4bd.up.railway.app/workouts |
 
-Enquanto uma URL não estiver configurada, o serviço aparece como offline na Visão geral.
 
 - Os serviços leem a conexão de variáveis de referência do Railway (`DB_HOST=${{MySQL.MYSQLHOST}}` etc.).
   Nenhuma senha fica no repositório.
