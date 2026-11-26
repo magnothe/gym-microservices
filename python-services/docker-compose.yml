@@ -1,0 +1,45 @@
+services:
+  mysql-python:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: America/Sao_Paulo
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - mysql-python-data:/var/lib/mysql
+    healthcheck:
+      # TCP (127.0.0.1) só responde depois que os scripts de init terminam
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  enrollment-service:
+    build: ./enrollment-service
+    environment:
+      DATABASE_URL: mysql+pymysql://enrollment_user:enrollment_pass@mysql-python:3306/enrollment_db
+      TZ: America/Sao_Paulo
+    ports:
+      - "8001:8000"
+    depends_on:
+      mysql-python:
+        condition: service_healthy
+
+  attendance-service:
+    build: ./attendance-service
+    environment:
+      DATABASE_URL: mysql+pymysql://attendance_user:attendance_pass@mysql-python:3306/attendance_db
+      ENROLLMENT_SERVICE_URL: http://enrollment-service:8000
+      TZ: America/Sao_Paulo
+    ports:
+      - "8002:8000"
+    depends_on:
+      mysql-python:
+        condition: service_healthy
+      enrollment-service:
+        condition: service_started
+
+volumes:
+  mysql-python-data:
